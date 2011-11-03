@@ -31,11 +31,18 @@ var methods = {
 
     var charCount = content.length;
 
+    $(this).removeData('fakeHumanInputStop');
+
     return this.each( function() {
       var $this = $(this),
         i = 0;
 
       var writeNextChar = function() {
+        if ( $this.data('fakeHumanInputStop') === true ) {
+          $this.removeData('fakeHumanInputStop');
+          return;
+        }
+
         var newVal = content.substr(0, i);
 
         i++;
@@ -52,7 +59,17 @@ var methods = {
       };
 
       writeNextChar();
+
+      return this;
     });
+  },
+
+  stop : function() {
+    var $this = $(this);
+    $().log("setting stop");
+    $this.data('fakeHumanInputStop', true);
+
+    return this;
   }
 };
 
