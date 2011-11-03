@@ -34,7 +34,8 @@ var methods = {
     $(this).removeData('fakeHumanInputStop');
 
     return this.each( function() {
-      var $this = $(this),
+      var that = this,
+        $this = $(this),
         i = 0;
 
       var writeNextChar = function() {
@@ -47,7 +48,10 @@ var methods = {
 
         i++;
 
-        $this.val( newVal );
+        if ( that.nodeName.toLowerCase() == "textarea" || that.nodeName.toLowerCase() == "input" )
+          $this.val( newVal );
+        else
+          $this.html( newVal )
 
         if ( i <= charCount ) {
           var nextInterval = settings['speed'] * ( 1 + ( Math.random() * 2 - 1) );
@@ -66,7 +70,6 @@ var methods = {
 
   stop : function() {
     var $this = $(this);
-    $().log("setting stop");
     $this.data('fakeHumanInputStop', true);
 
     return this;
