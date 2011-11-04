@@ -27,9 +27,10 @@ var methods = {
 
     var content = settings['content'];
     if ( ! content ) 
-      return;
+      return; 
 
     var charCount = content.length;
+      
 
     $(this).removeData('fakeHumanInputStop');
 
@@ -37,6 +38,14 @@ var methods = {
       var that = this,
         $this = $(this),
         i = 0;
+
+      var prependContent = "";
+      if ( settings['append'] ) {
+        if ( that.nodeName.toLowerCase() == "textarea" || that.nodeName.toLowerCase() == "input" )
+          prependContent = $this.val();
+        else
+          prependContent = $this.html();
+      }
 
       var writeNextChar = function() {
         if ( $this.data('fakeHumanInputStop') === true ) {
@@ -49,9 +58,9 @@ var methods = {
         i++;
 
         if ( that.nodeName.toLowerCase() == "textarea" || that.nodeName.toLowerCase() == "input" )
-          $this.val( newVal );
+          $this.val( prependContent + newVal );
         else
-          $this.html( newVal )
+          $this.html( prependContent +  newVal )
 
         if ( i <= charCount ) {
           var nextInterval = settings['speed'] * ( 1 + ( Math.random() * 2 - 1) );
