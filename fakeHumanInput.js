@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-
 (function($) {
 
 var methods = {
   init : function( options ) {
     var settings = {
-      speed: 30
+      speed: 40
     };
 
     if ( options ) 
@@ -31,7 +30,6 @@ var methods = {
 
     var charCount = content.length;
       
-
     $(this).removeData('fakeHumanInputStop');
 
     return this.each( function() {
@@ -53,14 +51,15 @@ var methods = {
           return;
         }
 
-        var newVal = content.substr(0, i);
+        var newVal = prependContent + content.substr(0, i);
 
         i++;
 
-        if ( that.nodeName.toLowerCase() == "textarea" || that.nodeName.toLowerCase() == "input" )
-          $this.val( prependContent + newVal );
+        if ( that.nodeName.toLowerCase() == "textarea" || that.nodeName.toLowerCase() == "input" ) {
+          $this.focus().val( newVal ).scrollLeft( $this.width() ).scrollTop( $this.height() );
+        }
         else
-          $this.html( prependContent +  newVal )
+          $this.html( newVal )
 
         if ( i <= charCount ) {
           var nextInterval = settings['speed'] * ( 1 + ( Math.random() * 2 - 1) );
